@@ -1,0 +1,18 @@
+{
+  "name": "illusionist",
+  "version": "0.0.1",
+  "description": "Illusionist transpiles ES6 files to ES5",
+  "main": "./lib/illusionist.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Charles Demers <cdemers@mirego.com> (http://mirego.com)",
+  "license": "BSD 3-Clause",
+  "dependencies": {
+    "colors": "~0.6.2",
+    "mkdirp": "~0.3.5",
+    "glob": "~3.2.8",
+    "jstransform": "~2.0.2",
+    "es6-module-transpiler": "~0.3.6"
+  }
+}

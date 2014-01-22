@@ -1,0 +1,12 @@
+{
+  "latedef": true,
+  "noarg": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": true,
+  "eqnull": true,
+  "camelcase": true,
+
+  "node": true,
+  "devel": true
+}
