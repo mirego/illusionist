@@ -14,7 +14,7 @@ Usage: illusionist [options] [< in [> out]]
                      directory tree in <dir> when passing a directory
     -p, --print      Print out the compiled ES5
     -v, --version    Display the version of Illusionist
-    -w, --watch      Watch file(s) for changes and re-compile 
+    -w, --watch      Watch file(s) for changes and re-compile
 ```
 
 ### STDIO Transpilation Example
@@ -25,7 +25,7 @@ Usage: illusionist [options] [< in [> out]]
 $ illusionist < es6-file.js > es5-file.js
 ```
 
-You can also test transpilation right in the terminal.  
+You can also test transpilation right in the terminal.
 Type `Ctrl-D` for `EOF`.
 
 ```bash
@@ -50,7 +50,7 @@ illusionist assets/javascripts --out public/javascripts
 You can also pass multiple paths:
 
 ```bash
-illusionist foo-1.js foo-2.js some-folder/ --out public/ 
+illusionist foo-1.js foo-2.js some-folder/ --out public/
 ```
 
 ### Compiling a directory tree
@@ -112,10 +112,10 @@ $('#element').on('click', (e) => {
 ```js
 class Triangle extends Polygon {
   constructor(sides) {
-   	this.sides = sides;
+    this.sides = sides;
     super();
   }
- 
+
   render() {
     // ...
     super.render();
@@ -207,7 +207,7 @@ console.log(foobar.foo);
 
 ## License
 
-`Foreigner` is © 2014 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  
+`Illusionist` is © 2014 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  
 See the [`LICENSE.md`](https://github.com/mirego/illusionist/blob/master/LICENSE.md) file.
 
 ## About Mirego
