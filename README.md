@@ -1,6 +1,12 @@
 # Illusionist
 `Illusionist` will make you believe ES6 is already available in browsers
 
+## Installation
+
+```bash
+$ npm install -g illusionist
+```
+
 ## Command-line
 
 ```
