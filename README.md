@@ -96,7 +96,8 @@ var es5Code = illusionist(stringOfES6, {fileName: 'outputFileName.js'}).render()
 
 ## Supported ES6 features
 
-`Illusionist` is really just a wrapper for [jstransform](https://github.com/facebook/jstransform/) and [es6-module-transpiler](https://github.com/square/es6-module-transpiler). So for now, the features are:
+`Illusionist` is really just a wrapper for [jstransform](https://github.com/facebook/jstransform/) and [es6-module-transpiler](https://github.com/square/es6-module-transpiler).  
+So for now, the features are:
 
 ### Arrow functions
 
@@ -207,7 +208,7 @@ console.log(foobar.foo);
 ## License
 
 `Foreigner` is © 2014 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  
-See the [`LICENSE.md`](https://github.com/mirego/foreigner.js/blob/master/LICENSE.md) file.
+See the [`LICENSE.md`](https://github.com/mirego/illusionist/blob/master/LICENSE.md) file.
 
 ## About Mirego
 
