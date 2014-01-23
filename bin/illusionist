@@ -95,7 +95,7 @@ while (args.length) {
   }
 }
 
-if (!destination) throw new Error('  --out <dir> is required'.red);
+if (!destination && !printToStdout) throw new Error('  --out <dir> is required'.red);
 
 // Compilation options.
 var options = {
