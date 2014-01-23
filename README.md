@@ -15,12 +15,12 @@ Usage: illusionist [options] [< in [> out]]
 
   Options:
 
-    -h, --help       Display help information
-    -o, --out <dir>  Output to <dir> when passing files or output a parallel
-                     directory tree in <dir> when passing a directory
-    -p, --print      Print out the compiled ES5
-    -v, --version    Display the version of Illusionist
-    -w, --watch      Watch file(s) for changes and re-compile
+    -h, --help         Display help information
+    -m, --module-name  Module name for stdin
+    -o, --out <dir>    Output to <dir> when passing files
+    -p, --print        Print out the compiled ES5
+    -v, --version      Display the version of Illusionist
+    -w, --watch        Watch file(s) for changes and re-compile
 ```
 
 ### STDIO Transpilation Example
@@ -82,7 +82,28 @@ illusionist --tree --out public/ app/assets/javascripts/
 
 ## Node module
 
-For the time being, the module only takes 1 option (`fileName`) which is used to output the AMD module name.
+The module can take 3 options:
+
+- `moduleName` - defines the AMD module name.  
+__Passing this option will ignore `fileName` and `basePath`.__
+- `fileName` - path to the file, used to define the AMD module name
+- `basePath` - when passing `basePath` and `fileName`, the AMD module name will be `fileName` relative to `basePath`
+
+```
+// Module will be named 'controllers/foo_controller'
+illusionist(stringOfES6, {moduleName: 'controllers/foo_controller'})
+
+// Module will be named 'controllers/foo_controller'
+illusionist(stringOfES6, {
+  basePath: '/Volumes/mirego/MyApp/assets/js/',
+  fileName: '/Volumes/mirego/MyApp/assets/js/controllers/foo_controller.js'
+});
+
+// Module will be named 'foo_controller'
+illusionist(stringOfES6, {
+  fileName: '/Volumes/mirego/MyApp/assets/js/controllers/foo_controller.js'
+});
+```
 
 ### Async version
 

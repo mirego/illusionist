@@ -41,14 +41,20 @@ var usage = [
   '',
   '  Options:',
   '',
-  '    -h, --help       Display help information',
-  '    -o, --out <dir>  Output to <dir> when passing files or ',
-  '    -p, --print      Print out the compiled ES5',
-  '    -t, --tree       Output a parallel directory tree in <dir>',
-  '    -v, --version    Display the version of Illusionist',
-  '    -w, --watch      Watch file(s) for changes and re-compile',
+  '    -h, --help         Display help information',
+  '    -m, --module-name  Module name (this option works only with stdin)',
+  '    -o, --out <dir>    Output to <dir> when passing files',
+  '    -p, --print        Print out the compiled ES5',
+  '    -t, --tree         Output a parallel directory tree in <dir>',
+  '    -v, --version      Display the version of Illusionist',
+  '    -w, --watch        Watch file(s) for changes and re-compile',
   ''
 ].join('\n');
+
+// Compilation options.
+var options = {
+  fileName: 'stdin'
+};
 
 // Handle arguments.
 var argument;
@@ -74,6 +80,11 @@ while (args.length) {
       printToStdout = true;
       break;
 
+    case '-m':
+    case '--module-name':
+      options.moduleName = args.shift();
+      break;
+
     case '-o':
     case '--out':
       destination = args.shift();
@@ -96,11 +107,6 @@ while (args.length) {
 }
 
 if (!destination && !printToStdout) throw new Error('  --out <dir> is required'.red);
-
-// Compilation options.
-var options = {
-  fileName: 'stdin'
-};
 
 // Check if we need to output a parallel directory tree.
 if (outputToTree) {
