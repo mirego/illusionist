@@ -1,6 +1,6 @@
 {
   "name": "illusionist",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Illusionist transpiles ES6 files to ES5",
   "main": "./lib/illusionist.js",
   "bin": "./bin/illusionist",
