@@ -15,226 +15,209 @@ var glob = require('glob');
 
 var illusionist = require('../lib/illusionist');
 
-// Arguments.
-var args = process.argv.slice(2);
+function Executable(argv) {
+  this.readFromStdIn = false;
+  this.writeToStdOut = false;
+  this.outputToTree = false;
 
-// Print to stdout flag.
-var printToStdout = false;
+  this.paths = [];
+  this.destination = '';
+  this.watchers = null;
 
-// Output directory tree
-var outputToTree = false;
+  this.compilationOptions = {
+    basePath: '',
+    moduleName: '',
+    fileName: ''
+  };
 
-// Path of files or directories to process.
-var paths = [];
-
-// Destination directory.
-var destination;
-
-// Watcher hash.
-var watchers;
-
-// Usage docs.
-var usage = [
-  '',
-  '  Usage: illusionist [options] [< in [> out]]',
-  '                     [file|dir ...]',
-  '',
-  '  Options:',
-  '',
-  '    -h, --help         Display help information',
-  '    -m, --module-name  Module name (this option works only with stdin)',
-  '    -o, --out <dir>    Output to <dir> when passing files',
-  '    -p, --print        Print out the compiled ES5',
-  '    -t, --tree         Output a parallel directory tree in <dir>',
-  '    -v, --version      Display the version of Illusionist',
-  '    -w, --watch        Watch file(s) for changes and re-compile',
-  ''
-].join('\n');
-
-// Compilation options.
-var options = {
-  fileName: 'stdin'
-};
-
-// Handle arguments.
-var argument;
-
-while (args.length) {
-  argument = args.shift();
-
-  switch (argument) {
-    case '-h':
-    case '--help':
-      console.error(usage);
-      process.exit(1);
-      break;
-
-    case '-v':
-    case '--version':
-      console.log(illusionist.version);
-      process.exit(0);
-      break;
-
-    case '-p':
-    case '--print':
-      printToStdout = true;
-      break;
-
-    case '-m':
-    case '--module-name':
-      options.moduleName = args.shift();
-      break;
-
-    case '-o':
-    case '--out':
-      destination = args.shift();
-      if (!destination) throw new Error('  --out <dir> is required'.red);
-      break;
-
-    case '-t':
-    case '--tree':
-      outputToTree = true;
-      break;
-
-    case '-w':
-    case '--watch':
-      watchers = {};
-      break;
-
-    default:
-      paths.push(argument);
+  this.setOptionsForArguments(argv);
+  var error = this.validateOptions();
+  if (error) {
+    console.error(String(error).red);
+    process.exit(1);
   }
 }
 
-if (!destination && !printToStdout) throw new Error('  --out <dir> is required'.red);
+Executable.prototype = {
+  getUsage: function() {
+    console.log([
+      '',
+      '  Usage: illusionist [options] [< in [> out]]',
+      '                     [file|dir ...]',
+      '',
+      '  Options:',
+      '',
+      '    -h, --help         Display help information',
+      '    -m, --module-name  Module name (this option works only with stdin)',
+      '    -o, --out <dir>    Output to <dir> when passing files',
+      '    -t, --tree         Output a parallel directory tree in <dir>',
+      '    -v, --version      Display the version of Illusionist',
+      '    -w, --watch        Watch file(s) for changes and re-compile',
+      ''
+    ].join('\n'));
+  },
 
-// Check if we need to output a parallel directory tree.
-if (outputToTree) {
-  if (paths.length > 1) throw new Error('  --tree option requires only 1 input directory'.red);
-  if (!fs.lstatSync(paths[0]).isDirectory()) throw new Error(('  ' + paths[0] + ' is not a directory').red);
-  options.basePath = paths[0];
+  setOptionsForArguments: function(argv) {
+    var argument;
 
-} else {
-  // No input provided and --watch is used, we are not working with stdio.
-  if (watchers) {
-    paths = fs.readdirSync(process.cwd());
-    paths = filterPaths(paths);
-  }
-}
+    while (argv.length) {
+      argument = argv.shift();
 
-// Start compilation
-if (options.basePath) {
-  compileDirectoryTree(paths[0]);
+      switch (argument) {
+      case '-h':
+      case '--help':
+        this.printUsage();
+        process.exit(1);
+        break;
 
-} else if (paths.length) {
-  compileFiles(paths);
+      case '-v':
+      case '--version':
+        console.log(illusionist.version);
+        process.exit(0);
+        break;
 
-} else {
-  compileStdio();
-}
+      case '-m':
+      case '--module-name':
+        this.compilationOptions.moduleName = argv.shift();
+        break;
 
-// Buffer stdin
-var buffer = '';
+      case '-o':
+      case '--out':
+        this.destination = argv.shift();
+        break;
 
-// Compile the given directory into a tree.
-function compileDirectoryTree(path) {
-  var paths = glob.sync(join(path, '**', '*.js'));
-  compileFiles(paths);
-}
+      case '-t':
+      case '--tree':
+        this.outputToTree = true;
+        break;
 
-// Compile with stdio.
-function compileStdio() {
-  process.stdin.setEncoding('utf8');
+      case '-w':
+      case '--watch':
+        this.watchers = {};
+        break;
 
-  process.stdin.on('data', function(chunk) {
-    buffer += chunk;
-  });
-
-  process.stdin.on('end', function() {
-    var es5 = illusionist(buffer, options).render();
-    process.stdout.write(es5);
-  }).resume();
-}
-
-// Compile the given files.
-function compileFiles(paths) {
-  paths.forEach(function(path, index) {
-    if (fs.lstatSync(path).isDirectory()) {
-      var files = fs.readdirSync(path);
-      files = files.map(function(file) {
-        return join(path, file);
-      });
-      paths.splice.apply(paths, [index, 1].concat(files));
+      default:
+        this.paths.push(argument);
+      }
     }
-  });
 
-  paths = filterPaths(paths);
-  paths = dedupePaths(paths);
+    if (!this.paths.length) this.readFromStdIn = true;
+    if (!this.destination) this.writeToStdOut = true;
+    if (this.outputToTree) this.compilationOptions.basePath = this.paths[0];
+  },
 
-  paths.forEach(compileFile);
-}
+  validateOptions: function() {
+    if (this.outputToTree && this.paths.length > 1) return '  --tree option requires only 1 input directory';
+    if (!this.readFromStdIn && !fs.lstatSync(this.paths[0]).isDirectory()) return '  ' + this.paths[0] + ' is not a directory';
+  },
 
-// Compile the given file.
-function compileFile(path) {
-  var buffer = fs.readFileSync(path, 'utf8');
-  options.fileName = path;
-  var es5 = illusionist(buffer, options).render();
-  writeFile(es5, options);
-}
+  run: function() {
+    if (this.readFromStdIn) {
+      this.compileFile();
 
-// Write the given JS output.
-function writeFile(js, options) {
-  // --print support
-  if (printToStdout) return process.stdout.write(js);
+    } else {
+      var paths = this.getPaths();
+      paths = this.getUniqueJSFilePaths(paths);
+      paths.forEach(this.compileFile.bind(this));
 
-  // --out support.
-  var path;
+      if (this.watchers) {
+        var self = this;
+        var boundCompileFileFunction = this.compileFile.bind(this);
+        paths.forEach(function(path) {
+          self.watchFile(path, boundCompileFileFunction);
+        });
+      }
+    }
+  },
 
-  if (options.basePath) {
-    var relativePath = relative(options.basePath, options.fileName);
-    path = join(destination, relativePath);
+  getPaths: function() {
+    var paths;
+
+    if (this.compilationOptions.basePath) {
+      paths = glob.sync(join(this.compilationOptions.basePath, '**', '*.js'));
+
+    } else {
+      paths = this.paths;
+      paths.forEach(function(path, index) {
+        if (fs.lstatSync(path).isDirectory()) {
+          var files = fs.readdirSync(path);
+          files = files.map(function(file) {
+            return join(path, file);
+          });
+          paths.splice.apply(paths, [index, 1].concat(files));
+        }
+      });
+    }
+
+    return paths;
+  },
+
+  getUniqueJSFilePaths: function(paths) {
+    var jsRegexp = /\.js$/;
+    return paths.reduce(function(newPaths, path) {
+      if (jsRegexp.test(path) && newPaths.indexOf(path) == -1) newPaths.push(path);
+      return newPaths;
+    }, []);
+  },
+
+  compileFile: function(path) {
+    this.getFileContent(path, function(path, error, content) {
+      if (error) console.error(String(error).red);
+      this.compilationOptions.fileName = path ? path : 'stdin';
+      var js = illusionist(content, this.compilationOptions).render();
+      this.writeFile(js, this.compilationOptions);
+    }.bind(this, path));
+  },
+
+  getFileContent: function(path, callback) {
+    if (!path) {
+      process.stdin.setEncoding('utf8');
+
+      var buffer = '';
+      process.stdin.on('data', function(chunk) {
+        buffer += chunk;
+      });
+
+      process.stdin.on('end', function() {
+        callback(null, buffer);
+      }).resume();
+
+    } else {
+      fs.readFile(path, 'utf8', callback);
+    }
+  },
+
+  writeFile: function(js, options) {
+    if (this.writeToStdOut) return process.stdout.write(js);
+
+    var path;
+
+    if (options.basePath) {
+      var relativePath = relative(options.basePath, options.fileName);
+      path = join(this.destination, relativePath);
+
+    } else {
+      path = join(this.destination, basename(options.fileName));
+    }
+
     mkdirp.sync(dirname(path));
 
-  } else {
-    path = join(destination, basename(options.fileName));
+    fs.writeFileSync(path, js);
+    console.log('  Compiled'.grey, path);
+  },
+
+  watchFile: function(path, fn) {
+    if (!this.watchers) return;
+    if (this.watchers[path]) return;
+
+    this.watchers[path] = true;
+    console.log('  Watching'.grey, path);
+
+    fs.watchFile(path, {interval: 300}, function(current, previous) {
+      if (current.mtime > previous.mtime) fn(path);
+    });
   }
+};
 
-  fs.writeFileSync(path, js);
-  console.log('  Compiled'.grey, path);
-
-  // --watch support.
-  watch(options.fileName, compileFile);
-}
-
-// Watch the given `file` and invoke `fn` when modified.
-function watch(file, fn) {
-  // Not watching.
-  if (!watchers) return;
-
-  // Already watched.
-  if (watchers[file]) return;
-
-  // Watch the file itself.
-  watchers[file] = true;
-  console.log('  Watching'.grey, file);
-
-  fs.watchFile(file, {interval: 300}, function(current, previous) {
-    if (current.mtime > previous.mtime) fn(file);
-  });
-}
-
-// Filter out non-JS files.
-function filterPaths(paths) {
-  return paths.filter(function(path) {
-    return (/\.js$/).test(path);
-  });
-}
-
-// Remove duplicate paths.
-function dedupePaths(paths) {
-  var returnPaths = [];
-  paths.forEach(function(path) {
-    if (returnPaths.indexOf(path) == -1) returnPaths.push(path);
-  });
-  return returnPaths;
-}
+var executable = new Executable(process.argv.slice(2));
+executable.run();
