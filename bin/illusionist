@@ -108,7 +108,7 @@ Executable.prototype = {
 
   validateOptions: function() {
     if (this.outputToTree && this.paths.length > 1) return '  --tree option requires only 1 input directory';
-    if (!this.readFromStdIn && !fs.lstatSync(this.paths[0]).isDirectory()) return '  ' + this.paths[0] + ' is not a directory';
+    if (this.outputToTree && !fs.lstatSync(this.paths[0]).isDirectory()) return '  --tree requires a directory. ' + this.paths[0] + ' is not a directory';
   },
 
   run: function() {
@@ -163,7 +163,7 @@ Executable.prototype = {
   compileFile: function(path) {
     this.getFileContent(path, function(path, error, content) {
       if (error) console.error(String(error).red);
-      this.compilationOptions.fileName = path ? path : 'stdin';
+      this.compilationOptions.fileName = path ? path : 'stdin.js';
       var js = illusionist(content, this.compilationOptions).render();
       this.writeFile(js, this.compilationOptions);
     }.bind(this, path));
