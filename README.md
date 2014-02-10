@@ -1,4 +1,7 @@
 # Illusionist
+
+[![Build Status](https://travis-ci.org/mirego/illusionist.png?branch=master)](https://travis-ci.org/mirego/illusionist)
+
 `Illusionist` will make you believe ES6 is already available in browsers
 
 ## Installation
