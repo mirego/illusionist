@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-
-// jshint latedef:false
-
 var fs = require('fs');
 var path = require('path');
 var basename = path.basename;
@@ -39,7 +36,7 @@ function Executable(argv) {
 }
 
 Executable.prototype = {
-  getUsage: function() {
+  printUsage: function() {
     console.log([
       '',
       '  Usage: illusionist [options] [< in [> out]]',
@@ -67,7 +64,7 @@ Executable.prototype = {
       case '-h':
       case '--help':
         this.printUsage();
-        process.exit(1);
+        process.exit(0);
         break;
 
       case '-v':
