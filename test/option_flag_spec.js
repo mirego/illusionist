@@ -52,6 +52,130 @@ describe('Option flags', function() {
     });
   });
 
+  describe('--module-type', function() {
+    it('should validate that --module-type is a valid type', function(done) {
+      var illusionist = spawn(binPath, ['-M', 'unknown_type']);
+
+      illusionist.on('exit', function(exitCode) {
+        expect(exitCode).to.equal(1);
+        done();
+      });
+
+      var stdin = ['',
+        'import Bar from "bar";',
+        'class Foo {',
+        '  constructor() {}',
+        '}'
+      ].join('\n');
+
+      illusionist.stdin.write(stdin);
+      illusionist.stdin.end();
+    });
+
+    it('should be able to output AMD modules by default', function(done) {
+      var illusionist = spawn(binPath);
+
+      illusionist.stdout.on('data', function (data) {
+        expect(Buffer.isBuffer(data)).to.be.true;
+        expect(data.length).to.be.greaterThan(0);
+        expect(data.toString()).to.contain('define("stdin"');
+      });
+
+      illusionist.on('exit', function(exitCode) {
+        expect(exitCode).to.equal(0);
+        done();
+      });
+
+      var stdin = ['',
+        'import Bar from "bar";',
+        'class Foo {',
+        '  constructor() {}',
+        '}'
+      ].join('\n');
+
+      illusionist.stdin.write(stdin);
+      illusionist.stdin.end();
+    });
+
+    it('should be able to output AMD modules', function(done) {
+      var illusionist = spawn(binPath, ['-M', 'amd']);
+
+      illusionist.stdout.on('data', function (data) {
+        expect(Buffer.isBuffer(data)).to.be.true;
+        expect(data.length).to.be.greaterThan(0);
+        expect(data.toString()).to.contain('define("stdin"');
+      });
+
+      illusionist.on('exit', function(exitCode) {
+        expect(exitCode).to.equal(0);
+        done();
+      });
+
+      var stdin = ['',
+        'import Bar from "bar";',
+        'class Foo {',
+        '  constructor() {}',
+        '}'
+      ].join('\n');
+
+      illusionist.stdin.write(stdin);
+      illusionist.stdin.end();
+    });
+
+    it('should be able to output CommonJS modules', function(done) {
+      var illusionist = spawn(binPath, ['-M', 'cjs']);
+
+      illusionist.stdout.on('data', function (data) {
+        expect(Buffer.isBuffer(data)).to.be.true;
+        expect(data.length).to.be.greaterThan(0);
+        expect(data.toString()).to.contain('exports["default"] = Foo;');
+      });
+
+      illusionist.on('exit', function(exitCode) {
+        expect(exitCode).to.equal(0);
+        done();
+      });
+
+      var stdin = ['',
+        'import Bar from "bar";',
+        'class Foo {',
+        '  constructor() {}',
+        '}',
+        'export default Foo;'
+      ].join('\n');
+
+      illusionist.stdin.write(stdin);
+      illusionist.stdin.end();
+    });
+
+    it('should be able to output modules as globals', function(done) {
+      var illusionist = spawn(binPath, ['-M', 'globals']);
+
+      illusionist.stdout.on('data', function (data) {
+        expect(Buffer.isBuffer(data)).to.be.true;
+        expect(data.length).to.be.greaterThan(0);
+        expect(data.toString()).to.contain('(function(__exports__');
+        expect(data.toString()).to.contain('__exports__.Foo = Foo;');
+      });
+
+      illusionist.on('exit', function(exitCode) {
+        expect(exitCode).to.equal(0);
+        done();
+      });
+
+      var stdin = ['',
+        'import Bar from "bar";',
+        'class Foo {',
+        '  constructor() {}',
+        '}',
+        'export default Foo;'
+      ].join('\n');
+
+      illusionist.stdin.write(stdin);
+      illusionist.stdin.end();
+    });
+  });
+
   describe('--watch', function() {
     it('should recompile a file when it’s changed', function(done) {
       var inputPath = join(fixturesPath, 'watch', 'file.js');

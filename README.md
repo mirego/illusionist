@@ -17,6 +17,7 @@ Usage: illusionist [options] [< in [> out]]
 
     -h, --help         Display help information
     -m, --module-name  Module name for stdin
+    -M, --module-type  Module type [default: amd] (Options: amd, cjs, globals)
     -o, --out <dir>    Output to <dir> when passing files
     -v, --version      Display the version of Illusionist
     -w, --watch        Watch file(s) for changes and re-compile
