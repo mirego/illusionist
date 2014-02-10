@@ -18,7 +18,6 @@ Usage: illusionist [options] [< in [> out]]
     -h, --help         Display help information
     -m, --module-name  Module name for stdin
     -o, --out <dir>    Output to <dir> when passing files
-    -p, --print        Print out the compiled ES5
     -v, --version      Display the version of Illusionist
     -w, --watch        Watch file(s) for changes and re-compile
 ```
@@ -225,7 +224,7 @@ import $ from 'jquery';
 
 #### Other syntax
 
-Whereas the `import` keyword imports specific identifiers from a module, the `module` keyword creates an object that contains all of a module's exports:
+Whereas the `import` keyword imports specific identifiers from a module, the `module` keyword creates an object that contains all of a module’s exports:
 
 ```
 module foobar from 'foobar';
@@ -239,6 +238,6 @@ See the [`LICENSE.md`](https://github.com/mirego/illusionist/blob/master/LICENSE
 
 ## About Mirego
 
-[Mirego](http://mirego.com) is a team of passionate people who believe that work is a place where you can innovate and have fun. We're a team of [talented people](http://life.mirego.com) who imagine and build beautiful Web and mobile applications. We come together to share ideas and [change the world](http://mirego.org).
+[Mirego](http://mirego.com) is a team of passionate people who believe that work is a place where you can innovate and have fun. We’re a team of [talented people](http://life.mirego.com) who imagine and build beautiful Web and mobile applications. We come together to share ideas and [change the world](http://mirego.org).
 
 We also [love open-source software](http://open.mirego.com) and we try to give back to the community as much as we can.

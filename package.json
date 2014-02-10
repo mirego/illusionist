@@ -1,16 +1,19 @@
 {
   "name": "illusionist",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Illusionist transpiles ES6 files to ES5",
   "main": "./lib/illusionist.js",
   "bin": "./bin/illusionist",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha -R spec -s 300"
   },
   "author": "Charles Demers <cdemers@mirego.com> (http://mirego.com)",
   "repository": {
     "type": "git",
-    "url" : "http://github.com/mirego/illusionist.git"
+    "url": "https://github.com/mirego/illusionist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mirego/illusionist/issues"
   },
   "license": "BSD 3-Clause",
   "dependencies": {
@@ -19,5 +22,10 @@
     "glob": "~3.2.8",
     "jstransform": "~2.0.2",
     "es6-module-transpiler": "~0.3.6"
+  },
+  "devDependencies": {
+    "chai-fs": "0.0.3",
+    "chai": "~1.9.0",
+    "mocha": "~1.17.1"
   }
 }
