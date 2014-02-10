@@ -7,6 +7,7 @@ var relative = path.relative;
 var dirname = path.dirname;
 
 require('colors');
+var minimist = require('minimist');
 var mkdirp = require('mkdirp');
 var glob = require('glob');
 
@@ -55,46 +56,41 @@ Executable.prototype = {
   },
 
   setOptionsForArguments: function(argv) {
-    var argument;
-
-    while (argv.length) {
-      argument = argv.shift();
+    for (var argument in argv) {
 
       switch (argument) {
-      case '-h':
-      case '--help':
-        this.printUsage();
-        process.exit(0);
+      case 'help':
+        if (argv[argument]) {
+          this.printUsage();
+          process.exit(0);
+        }
         break;
 
-      case '-v':
-      case '--version':
-        console.log(illusionist.version);
-        process.exit(0);
+      case 'version':
+        if (argv[argument]) {
+          console.log(illusionist.version);
+          process.exit(0);
+        }
         break;
 
-      case '-m':
-      case '--module-name':
-        this.compilationOptions.moduleName = argv.shift();
+      case 'module-name':
+        this.compilationOptions.moduleName = argv[argument];
         break;
 
-      case '-o':
-      case '--out':
-        this.destination = argv.shift();
+      case 'out':
+        this.destination = argv[argument];
         break;
 
-      case '-t':
-      case '--tree':
-        this.outputToTree = true;
+      case 'tree':
+        if (argv[argument]) this.outputToTree = true;
         break;
 
-      case '-w':
-      case '--watch':
-        this.watchers = {};
+      case 'watch':
+        if (argv[argument]) this.watchers = {};
         break;
 
-      default:
-        this.paths.push(argument);
+      case '_':
+        this.paths = argv[argument];
       }
     }
 
@@ -216,5 +212,17 @@ Executable.prototype = {
   }
 };
 
-var executable = new Executable(process.argv.slice(2));
+var argv = minimist(process.argv.slice(2), {
+  'boolean': ['help', 'version' ,'tree', 'watch'],
+  alias: {
+    'help':        'h',
+    'version':     'v',
+    'module-name': 'm',
+    'out':         'o',
+    'tree':        't',
+    'watch':       'w'
+  }
+});
+
+var executable = new Executable(argv);
 executable.run();
