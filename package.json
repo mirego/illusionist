@@ -1,6 +1,6 @@
 {
   "name": "illusionist",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Illusionist transpiles ES6 files to ES5",
   "main": "./lib/illusionist.js",
   "bin": "./bin/illusionist",
@@ -20,7 +20,7 @@
     "colors": "~0.6.2",
     "mkdirp": "~0.3.5",
     "glob": "~3.2.8",
-    "jstransform": "~2.0.2",
+    "jstransform": "~2.0.3",
     "es6-module-transpiler": "~0.3.6",
     "minimist": "0.0.7"
   },
