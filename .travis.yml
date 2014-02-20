@@ -1,3 +1,12 @@
  language: node_js
+
  node_js:
    - "0.10"
+
+notifications:
+  hipchat:
+    rooms:
+      secure: "q4TXHNFoZ1M8RI7A6Vv35RkUY9O5UfPBQpqQls7c5HrB3ZDW4ZsBlEvvPiFRagIvm19lYmb0YwcifZrk3rGiX/S+qCKMnmstGJKdSBqkIlJyrcyM5DLLwWRjdno3/giMoFWxmDZwe049wpzrhm6w0OHMpYulx3LnF1QmQDbnuJc="
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Build</a>/<a href="%{compare_url}">Changes</a>)'
+    format: 'html'
