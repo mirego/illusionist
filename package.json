@@ -22,7 +22,7 @@
     "glob": "~3.2.8",
     "jstransform": "~3.0.0",
     "es6-module-transpiler": "~0.3.6",
-    "minimist": "0.0.7"
+    "minimist": "~0.0.8"
   },
   "devDependencies": {
     "chai-fs": "0.0.3",
