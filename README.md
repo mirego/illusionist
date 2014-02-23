@@ -94,25 +94,25 @@ __Passing this option will ignore `fileName` and `basePath`.__
 
 ```
 // Module will be named 'controllers/foo_controller'
-illusionist(stringOfES6, {moduleName: 'controllers/foo_controller'})
+illusionist(stringOfES6, {moduleName: 'controllers/foo_controller'}).render();
 
 // Module will be named 'controllers/foo_controller'
 illusionist(stringOfES6, {
   basePath: '/Volumes/mirego/MyApp/assets/js/',
   fileName: '/Volumes/mirego/MyApp/assets/js/controllers/foo_controller.js'
-});
+}).render();
 
 // Module will be named 'foo_controller'
 illusionist(stringOfES6, {
   fileName: '/Volumes/mirego/MyApp/assets/js/controllers/foo_controller.js'
-});
+}).render();
 ```
 
 ### Async version
 
 ```js
 var illusionist = require('illusionist');
-illusionist(stringOfES6, {fileName: 'outputFileName.js'}, function(err, stringOfES5) {
+illusionist(stringOfES6, {fileName: 'outputFileName.js'}).render(function(err, stringOfES5) {
   // yay we have ES5 code!
 });
 ```
