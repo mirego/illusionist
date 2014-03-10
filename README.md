@@ -235,6 +235,10 @@ module foobar from 'foobar';
 console.log(foobar.foo);
 ```
 
+## Rails Asset Pipeline
+
+If you wish to use `Illusionist` in your Ruby on Rails project, you can easily do so by using the [`sprockets-illusionist`](https://github.com/mirego/sprockets-illusionist) gem which will seamlessly compile `.es6.js` files to `.js` files.
+
 ## License
 
 `Illusionist` is © 2014 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  
