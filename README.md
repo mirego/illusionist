@@ -237,7 +237,7 @@ console.log(foobar.foo);
 
 ## Rails Asset Pipeline
 
-If you wish to use `Illusionist` in your Ruby on Rails project, you can easily do so by using the [`sprockets-illusionist`](https://github.com/mirego/sprockets-illusionist) gem which will seamlessly compile `.es6.js` files to `.js` files.
+If you wish to use `Illusionist` in your Ruby on Rails project, you can easily do so by using the [`sprockets-illusionist`](https://github.com/mirego/sprockets-illusionist) gem which will seamlessly compile `.js.es6` files to `.js` files.
 
 ## License
 
