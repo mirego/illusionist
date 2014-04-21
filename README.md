@@ -1,6 +1,9 @@
 # Illusionist
 
-[![NPM version](https://badge.fury.io/js/illusionist.png)](http://badge.fury.io/js/illusionist) [![Build Status](https://travis-ci.org/mirego/illusionist.png?branch=master)](https://travis-ci.org/mirego/illusionist) [![Code Climate](https://codeclimate.com/github/mirego/illusionist.png)](https://codeclimate.com/github/mirego/illusionist) [![Dependency Status](https://gemnasium.com/charlesdemers/illusionist.png)](https://gemnasium.com/charlesdemers/illusionist)
+[![NPM version](http://img.shields.io/npm/v/illusionist.svg)](https://www.npmjs.org/package/illusionist)
+[![Build status](http://img.shields.io/travis/mirego/illusionist.svg)](https://travis-ci.org/mirego/illusionist)
+[![Code Climate](http://img.shields.io/codeclimate/github/kabisaict/flow.svg)](https://codeclimate.com/github/mirego/illusionist)
+[![Dependency Status](http://img.shields.io/gemnasium/mirego/illusionist.svg)](https://gemnasium.com/charlesdemers/illusionist)
 
 `Illusionist` will make you believe ES6 is already available in browsers
 
