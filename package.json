@@ -1,6 +1,6 @@
 {
   "name": "illusionist",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Illusionist transpiles ES6 files to ES5",
   "main": "./lib/illusionist.js",
   "bin": "./bin/illusionist",
@@ -18,15 +18,15 @@
   "license": "BSD 3-Clause",
   "dependencies": {
     "colors": "~0.6.2",
-    "mkdirp": "~0.3.5",
-    "glob": "~3.2.8",
-    "jstransform": "~3.0.0",
+    "mkdirp": "^0.5.0",
+    "glob": "^4.0.0",
+    "jstransform": "^5.0.0",
     "es6-module-transpiler": "~0.4.0",
-    "minimist": "~0.0.8"
+    "minimist": "0.1.0"
   },
   "devDependencies": {
     "chai-fs": "0.0.3",
     "chai": "~1.9.0",
-    "mocha": "~1.18.2"
+    "mocha": "^1.19.0"
   }
 }
