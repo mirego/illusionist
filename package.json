@@ -17,16 +17,16 @@
   },
   "license": "BSD 3-Clause",
   "dependencies": {
-    "colors": "~0.6.2",
-    "mkdirp": "^0.5.0",
-    "glob": "^4.0.0",
-    "jstransform": "^5.0.0",
-    "es6-module-transpiler": "~0.4.0",
-    "minimist": "0.1.0"
+    "colors": "1.0.3",
+    "mkdirp": "0.5.0",
+    "glob": "4.2.1",
+    "jstransform": "8.2.0",
+    "es6-module-transpiler": "0.4.0",
+    "minimist": "1.1.0"
   },
   "devDependencies": {
-    "chai-fs": "0.0.3",
-    "chai": "~1.9.0",
-    "mocha": "^1.19.0"
+    "chai-fs": "0.1.0",
+    "chai": "1.10.0",
+    "mocha": "1.21.4"
   }
 }
