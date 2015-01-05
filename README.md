@@ -244,7 +244,7 @@ If you wish to use `Illusionist` in your Ruby on Rails project, you can easily d
 
 ## License
 
-`Illusionist` is © 2014 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  
+`Illusionist` is © 2014-2015 [Mirego](http://www.mirego.com) and may be freely distributed under the [New BSD license](http://opensource.org/licenses/BSD-3-Clause).  
 See the [`LICENSE.md`](https://github.com/mirego/illusionist/blob/master/LICENSE.md) file.
 
 ## About Mirego
