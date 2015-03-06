@@ -7,6 +7,12 @@
 
 `Illusionist` will make you believe ES6 is already available in browsers
 
+## Deprecation notice
+
+:warning: This repository is now deprecated in favor of
+[`babel`](https://github.com/babel/babel) which supports ECMAScript transpilation
+and module exporting.
+
 ## Installation
 
 ```bash
